@@ -1,0 +1,28 @@
+---
+title: "Mass Tracts"
+author: "Rishith Ravi"
+format: html
+execute: 
+  echo: false
+  message: false
+  warning: false
+---
+
+
+```{r}
+#| label: setup
+library(tidyverse)
+```
+
+```{r}
+data = read_csv("mass-tracts.csv", show_col_types = FALSE)
+```
+
+```{r}
+library(ggridges)
+library(readr)
+
+ggplot(data, aes(x = med_income, y = race, fill = race)) +
+  geom_density_ridges(alpha = 0.7, scale = 0.9)
+```
+
