@@ -21,8 +21,22 @@ data = read_csv("mass-tracts.csv", show_col_types = FALSE)
 ```{r}
 library(ggridges)
 library(readr)
+library(scales)
 
-ggplot(data, aes(x = med_income, y = race, fill = race)) +
-  geom_density_ridges(alpha = 0.7, scale = 0.9)
+desired_order <- c("Hispanic", "Black", "Asian", "White")
+data$race <- factor(data$race, levels = desired_order)
+
+
+data |> ggplot(mapping = aes(x = med_income, fill = race)) +
+  geom_density(alpha = 0.5, adjust = 2) + 
+  labs(title = "Median Income for Massachusetts Census Tracts", 
+       subtitle = "The richest tracts are white",
+       x = "Median Income",
+       y = "",
+       caption = "The race of each tract is determined by the most numerous racial group\npresent in the tract. Data from the American Community Survey 2022.",
+       fill = "Race") +
+  ggplot2::scale_x_continuous(labels = label_dollar()) +
+  theme(axis.text.y = element_blank(),
+    axis.ticks.y = element_blank())
 ```
 
